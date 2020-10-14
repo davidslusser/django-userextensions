@@ -110,4 +110,32 @@ user-defined preferences
 ------------------------
 User preferences, for settings like theme, start page, recents count, etc. are available in the UserPreference model.
 A view for displaying and editing these preferences , ``DetailUser``, is available at ``userextensions:detail_user``
-which uses Twitter Bootsrap. On this page there are links to refresh the API token and edit available preferences.
+which uses Twitter Bootstrap. On this page there are links to refresh the API token and edit available preferences.
+
+.. image:: images/detail_user.png
+
+
+service account management
+--------------------------
+Version 0.0.10 of django-userextensions introduces service account management and provides the ability to link a
+service account to an existing group. By default one service account per group is allowed. Adding a service account
+creates a new User (django.contrib.auth.models.User) and a new entry in the ServiceAccount
+(userextensions.models.ServiceAccount) that links the created user and group. A DRF API token is created automatically.
+The User username is created based on the group name and optional service account prefix and service account suffix.
+These can be set in django settings with the following parameters: ``SRV_ACCOUNT_PREFIX`` and ``SRV_ACCOUNT_SUFFIX``
+If neither of these parameters are set, the default name will be used: ``<group>_srv``
+
+A view for displaying and editing these preferences , ``ManageServiceAccounts``, is available at
+``userextensions:manage_service_accounts`` which uses Twitter Bootstrap. This page provides a list all current service
+accounts the current user has rights to and all groups without a service account. This is based on existing groups the
+user is a member of self-service action are also available.
+
+Self-service actions on this page include:
+ - display service account API token
+ - refresh API token
+ - enable/disable service account
+ - delete service account
+ - list users in group
+ - create service account
+
+.. image:: images/manage_service_accounts.png

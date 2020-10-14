@@ -19,22 +19,22 @@ Middleware
 Signals
 -------
 .. automodule:: userextensions.signals
-    :members: add_user_preference, trim_recents
+    :members: add_user_preference, trim_recents, create_srv_account_token
 
 
 Models
 ------
 .. automodule:: userextensions.models
-    :members: Theme, UserPreference, UserRecent, UserFavorite
+    :members: Theme, UserPreference, UserRecent, UserFavorite, ServiceAccount
 
 
 Action Views
 ------------
 .. automodule:: userextensions.views.action
-    :members: RefreshApiToken, AddFavorite, DeleteFavorite, DeleteRecent, UserLoginRedirect, SetStartPage
+    :members: RefreshApiToken, RefreshSrvAcctApiToken, AddFavorite, DeleteFavorite, DeleteRecent, UserLoginRedirect, SetStartPage, CreateServiceAccount, DeleteServiceAccount, EnableServiceAccount, DisableServiceAccount
 
 
 GUI Views
 ---------
 .. automodule:: userextensions.views.gui
-    :members: ListRecents, ListFavorites, DetailUser
+    :members: ListRecents, ListFavorites, DetailUser, ManageServiceAccounts

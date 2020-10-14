@@ -12,6 +12,7 @@ Pre-Release
    :header: "Release", "Details"
    :widths: 20, 100
 
+   "0.0.10", "added service account management"
    "0.0.6", "added documentation via sphinx"
    "0.0.5", "fixed base_tempalte in recents/favorites views"
    "0.0.4", "added views and templates for user pages"

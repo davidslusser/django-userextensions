@@ -1,7 +1,9 @@
 from django.urls import path
 from userextensions import views
+from userextensions.views import ajax
+from userextensions.views import action
 
-app_name = "userextensions"
+app_name = 'userextensions'
 
 urlpatterns = [
 
@@ -23,7 +25,18 @@ urlpatterns = [
     path('delete_recent/<int:pk>', views.DeleteRecent.as_view(), name='delete_recent'),
 
     # custom views
-    path('refresh_api_token', views.RefreshApiToken.as_view(), name='refresh_api_token'),
     path('user_login_redirect/', views.UserLoginRedirect.as_view(), name='user_login_redirect'),
+    path('manage_service_accounts/', views.ManageServiceAccounts.as_view(), name='manage_service_accounts'),
+
+    # action views
+    path('refresh_api_token', views.RefreshApiToken.as_view(), name='refresh_api_token'),
+    path('refresh_srv_acct_token', views.RefreshSrvAcctApiToken.as_view(), name='refresh_srv_acct_token'),
+    path('create_srv_account', action.CreateServiceAccount.as_view(), name='create_srv_account'),
+    path('delete_srv_account', action.DeleteServiceAccount.as_view(), name='delete_srv_account'),
+    path('enable_srv_account', action.EnableServiceAccount.as_view(), name='enable_srv_account'),
+    path('disable_srv_account', action.DisableServiceAccount.as_view(), name='disable_srv_account'),
+
+    # ajax views
+    path('get_users_per_group', ajax.get_users_per_group, name='get_users_per_group'),
 
 ]

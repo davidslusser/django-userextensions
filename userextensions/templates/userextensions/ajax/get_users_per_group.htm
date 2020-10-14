@@ -1,0 +1,12 @@
+<br>
+<div class="container-fluid">
+    <table class="table table-condensed table-bordered table-striped">
+        <tbody>
+        {% for row in queryset %}
+        <tr>
+            <td>{{ row }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

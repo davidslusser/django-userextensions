@@ -8,7 +8,7 @@ To use this, add the following in your navbar where appropriate:
 {% endcomment %}
 {% load userextension_tags %}
 
-<a class="dropdown-item" href="{% url 'userextensions:detail_user' %}"><i class="fa fa-address-card fw mr-3"></i>Profile</a>
+<a class="dropdown-item" href="{% url 'userextensions:detail_user' %}"><i class="fa fa-address-card fw" style="margin-right: .9em"></i>Profile</a>
 <a class="dropdown-item" href="{% url 'userextensions:manage_service_accounts' %}"><i class="fas fa-users-cog fw" style="margin-right: .75em"></i>Service Accounts</a>
 <a class="dropdown-item" href="{% url 'userextensions:list_recents' %}"><b class="far fa-clock fw mr-3"></b>Recents</a>
 <a class="dropdown-item" href="{% url 'userextensions:list_favorites' %}"><i class="far fa-heart mr-3"></i>Favorites</a>

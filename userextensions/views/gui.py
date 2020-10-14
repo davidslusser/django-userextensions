@@ -100,7 +100,7 @@ class ManageServiceAccounts(LoginRequiredMixin, View):
         context = dict()
         # get all current service accounts
         context['service_accounts'] = ServiceAccount.objects.filter(group__user=request.user).\
-            select_related('user', 'group').order_by('group__name')
+            select_related('user', 'group', 'user__auth_token').order_by('group__name')
 
         # get list of groups that do not have a service account
         context['groups'] = request.user.groups.filter(serviceaccount=None).\

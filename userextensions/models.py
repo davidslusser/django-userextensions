@@ -100,7 +100,7 @@ class ServiceAccount(UserExtensionBaseModel):
         # before creating the service account, we need to get_or_create the user
         self.user = User.objects.get_or_create(username=username)[0]
         # add now add the new user to the matching group
-        self.user.groups.add(self.group)
+        self.group.user_set.add(self.user)
 
         # check if multiple service accounts per group are allowed. This is set in the django settings file with
         # the ALLOW_MULTIPLE_SRV_ACCOUNTS variable. By default, only one service account per group is allowed. To
@@ -120,3 +120,14 @@ class ServiceAccount(UserExtensionBaseModel):
     def create_drf_token(self):
         """ create a drf token for this service account """
         Token.objects.get_or_create(user=self.user)
+
+
+class ServiceAccountTokenHistory(models.Model):
+    """ This table track changes to a ServiceAccount API token refresh history """
+    objects = HandyHelperModelManager()
+    actor = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, help_text='user who refreshed token')
+    srv_acct = models.ForeignKey(ServiceAccount, on_delete=models.CASCADE, help_text='')
+    timestamp = models.DateTimeField(auto_now_add=True, help_text='date/time when this token refresh occurred')
+
+    def __str__(self):
+        return self.srv_acct.user.username

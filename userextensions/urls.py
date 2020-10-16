@@ -38,5 +38,6 @@ urlpatterns = [
 
     # ajax views
     path('get_users_per_group', ajax.get_users_per_group, name='get_users_per_group'),
+    path('get_srv_acct_token_history', ajax.get_srv_acct_token_history, name='get_srv_acct_token_history'),
 
 ]

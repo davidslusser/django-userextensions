@@ -13,7 +13,7 @@ from braces.views import LoginRequiredMixin
 
 # import models
 from django.contrib.auth.models import User, Group
-from userextensions.models import (UserRecent, UserFavorite, ServiceAccount)
+from userextensions.models import (UserRecent, UserFavorite, ServiceAccount, ServiceAccountTokenHistory)
 
 
 class RefreshApiToken(LoginRequiredMixin, View):
@@ -38,8 +38,11 @@ class RefreshSrvAcctApiToken(LoginRequiredMixin, View):
             token = Token.objects.get(user=srv_acct.user)
             token.delete()
             Token.objects.get_or_create(user=srv_acct.user)
-            messages.add_message(request, messages.INFO, 'API token refreshed',
-                                 extra_tags='alert-info')
+
+            # track the token refresh in ServiceAccountTokenHistory
+            ServiceAccountTokenHistory.objects.create(actor=request.user, srv_acct=srv_acct)
+
+            messages.add_message(request, messages.INFO, 'API token refreshed', extra_tags='alert-info')
         except Exception as err:
             messages.add_message(request, messages.ERROR, f'Could not complete requested action: {err}',
                                  extra_tags='alert-danger')

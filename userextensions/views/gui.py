@@ -21,7 +21,7 @@ class ListRecents(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
     """ Displays a list of urls the user has recently visited, rendered in a paginated, searchable, sortable bootstrap
     table. This view is filterable via query parameters. Includes links to delete individual entries.
     """
-    base_template = settings.BASE_TEMPLATE
+    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base.htm')
     template = 'handyhelpers/generic/generic_list.html'
 
     def get(self, request, *args, **kwargs):
@@ -38,7 +38,7 @@ class ListRecents(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
 class ListFavorites(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
     """ Displays a list of urls user has set as favorites, rendered in a paginated, searchable, sortable bootstrap
     table. This view is filterable via query parameters. Includes links to delete individual entries. """
-    base_template = settings.BASE_TEMPLATE
+    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base.htm')
     template = 'handyhelpers/generic/generic_list.html'
 
     def get(self, request, *args, **kwargs):
@@ -55,7 +55,7 @@ class ListFavorites(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
 class DetailUser(LoginRequiredMixin, View):
     """ Displays user details, including group configuration, API token, and configuration for theme, start page, and
     recents count. Includes link to refresh API token and modal form to edit user preferences. """
-    base_template = settings.BASE_TEMPLATE
+    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base.htm')
     template = 'userextensions/detail/detail_user.html'
 
     def get(self, request):
@@ -93,7 +93,7 @@ class ManageServiceAccounts(LoginRequiredMixin, View):
     """ Displays service accounts this user can access (service accounts that are linked to groups this owner is a
     member of). Provides mechanisms for users to create service accounts for applicable groups, refresh API tokens, and
     enable/disable service accounts """
-    base_template = settings.BASE_TEMPLATE
+    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base.htm')
     template = 'userextensions/custom/manage_service_accounts.html'
 
     def get(self, request):

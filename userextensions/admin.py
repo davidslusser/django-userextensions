@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # import models
-from userextensions.models import (Theme, UserFavorite, UserPreference, UserRecent, ServiceAccount)
+from userextensions.models import (Theme, UserFavorite, UserPreference, UserRecent,
+                                   ServiceAccount, ServiceAccountTokenHistory)
 
 
 class ThemeAdmin(admin.ModelAdmin):
@@ -32,9 +33,16 @@ class ServiceAccountAdmin(admin.ModelAdmin):
     list_filter = ["enabled"]
 
 
+class ServiceAccountTokenHistoryAdmin(admin.ModelAdmin):
+    list_display = ("id", "actor", "srv_acct", "timestamp")
+    search_fields = ["actor__username", "srv_acct__user__username"]
+    list_filter = ["actor", "srv_acct"]
+
+
 # register models
 admin.site.register(Theme, ThemeAdmin)
 admin.site.register(UserPreference, UserPreferenceAdmin)
 admin.site.register(UserFavorite, UserFavoriteAdmin)
 admin.site.register(UserRecent, UserRecentAdmin)
 admin.site.register(ServiceAccount, ServiceAccountAdmin)
+admin.site.register(ServiceAccountTokenHistory, ServiceAccountTokenHistoryAdmin)

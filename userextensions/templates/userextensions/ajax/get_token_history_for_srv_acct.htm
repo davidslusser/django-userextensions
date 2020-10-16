@@ -1,0 +1,19 @@
+<br>
+<div class="container-fluid">
+    <table class="table table-condensed table-bordered table-striped">
+        <col width="30%">
+        <col width="70%">
+        <tbody>
+        {% if queryset %}
+            {% for row in queryset %}
+            <tr>
+                <td>{{ row.actor }}</td>
+                <td>{{ row.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>The API token for this service account has never been refreshed</tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>

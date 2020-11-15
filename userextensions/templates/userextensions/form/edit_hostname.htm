@@ -1,0 +1,87 @@
+{# custom javascript and modal to support editing a favorite #}
+{% block page_javascript %}
+<script language="Javascript">
+
+        function EditFavorite(url, title, name, button){
+            /*
+             Description:
+                Launch modal to confirm actions
+
+             Parameters:
+                 url    - url to access on confirmation
+                 title	- modal window title
+                 name   - name
+                 button	- action button label
+            */
+            if (url === undefined){
+                return;
+            }
+            if (title === undefined){
+                var title = "Confirm";
+            }
+            if (button === undefined){
+                var button = "Continue";
+            }
+            document.getElementById("name").value = name;
+            document.getElementById("id_modalEditFavoriteHeader").innerHTML = "<b>"+title+"</b>";
+            document.getElementById("id_modalEditFavorite_OK").innerHTML = button;
+            var okbutton = document.getElementById("id_modalEditFavorite_OK");
+
+            document.getElementById("id_modalEditFavorite_OK").onclick = function(){postEditFavorite(url);};
+            $("#id_modalEditFavorite_OK").attr('class', 'btn btn-primary text-light');
+            $("#id_modalEditFavorite").modal({show:true});
+        }
+
+        function postEditFavorite(url){
+            /*
+             Description:
+                Send a POST using #modalsubmitform down below. Updates action to input url.
+
+             Parameters:
+                url   - url to POST a blank form to.
+            */
+            var dummyform = $('#modalsubmitform');
+            var name = document.getElementById("name").value;
+            dummyform.attr('action', url+"&name="+name);
+            dummyform.attr('method', 'POST');
+            dummyform.submit();
+        }
+
+    </script>
+{% endblock %}
+
+<!-- MODAL: assign hostname -->
+<div id="id_modalEditFavoriteationWrapper">
+    <div class="modal fade" id="id_modalEditFavorite" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="id_modalEditFavoriteHeader"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body" id="id_modalEditFavoriteBody">
+
+                    <form class="form-horizontal" role="form" action="">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <div class="row text-left">
+                                    <div class="col-sm-3">
+                                        <label class="control-label" for="name"><b>Name:</b></label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="name" name="name"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer" id="id_modalEditFavoriteFooter">
+                    <button class="btn btn-light" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <a class="btn btn-primary text-light" id="id_modalEditFavorite_OK"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

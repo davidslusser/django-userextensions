@@ -247,3 +247,81 @@ class DisableServiceAccount(LoginRequiredMixin, View):
             messages.add_message(request, messages.ERROR, f'Error disabling service account: {err}',
                                  extra_tags='alert-danger')
         return redirect(referrer)
+
+
+class AdminEnableServiceAccount(LoginRequiredMixin, View):
+    """ admin enable a service account """
+    def post(self, request):
+        referrer = self.request.META.get('HTTP_REFERER')
+        try:
+            srv_acct_id = self.request.GET.dict().get('srv_acct_id', None)
+            srv_acct = ServiceAccount.objects.get_object_or_none(id=srv_acct_id)
+            if not srv_acct:
+                messages.add_message(request, messages.ERROR, 'invalid service account provided',
+                                     extra_tags='alert-danger')
+                return redirect(referrer)
+
+            # only enable if user is an admin
+            if not request.user.is_superuser:
+                messages.add_message(request, messages.ERROR, 'You must be an admin to enable this service account',
+                                     extra_tags='alert-danger')
+                return redirect(referrer)
+
+            srv_acct.admin_enabled = True
+            srv_acct.save()
+            messages.add_message(request, messages.INFO, f'Service account {srv_acct.user.username} is admin enabled',
+                                 extra_tags='alert-info')
+
+        except Exception as err:
+            messages.add_message(request, messages.ERROR, f'Error admin-enabling service account: {err}',
+                                 extra_tags='alert-danger')
+        return redirect(referrer)
+
+
+class AdminDisableServiceAccount(LoginRequiredMixin, View):
+    """ admin disable a service account """
+    def post(self, request):
+        referrer = self.request.META.get('HTTP_REFERER')
+        try:
+            srv_acct_id = self.request.GET.dict().get('srv_acct_id', None)
+            srv_acct = ServiceAccount.objects.get_object_or_none(id=srv_acct_id)
+            if not srv_acct:
+                messages.add_message(request, messages.ERROR, 'invalid service account provided',
+                                     extra_tags='alert-danger')
+                return redirect(referrer)
+
+            # only disable if user is an admin
+            if not request.user.is_superuser:
+                messages.add_message(request, messages.ERROR, 'You must be an admin to disable this service account',
+                                     extra_tags='alert-danger')
+                return redirect(referrer)
+            srv_acct.admin_enabled = False
+            srv_acct.save()
+            messages.add_message(request, messages.INFO, f'Service account {srv_acct.user.username} is admin disabled',
+                                 extra_tags='alert-info')
+
+        except Exception as err:
+            messages.add_message(request, messages.ERROR, f'Error admin-disabling service account: {err}',
+                                 extra_tags='alert-danger')
+        return redirect(referrer)
+
+
+class EditFavorite(LoginRequiredMixin, View):
+    """ edit the name of a favorite """
+    def post(self, request, *args, **kwargs):
+        """ process POST request """
+        redirect_url = self.request.META.get('HTTP_REFERER')
+        obj_id = self.request.GET.dict().get('id', None)
+        name = self.request.GET.dict().get('name', None)
+        try:
+            favorite = UserFavorite.objects.get_object_or_none(id=obj_id)
+            if request.user != favorite.user:
+                messages.add_message(request, messages.ERROR, 'you are not authorized to edit this favorite',
+                                     extra_tags='alert-danger')
+                return redirect(redirect_url)
+            favorite.name = name[:32]
+            favorite.save()
+            messages.add_message(request, messages.INFO, 'favorite renamed', extra_tags='alert-success')
+        except Exception as err:
+            messages.add_message(request, messages.ERROR, err, extra_tags='alert-danger')
+        return redirect(redirect_url)

@@ -9,7 +9,7 @@
 <div class="container-fluid pl-5 pr-5">
 
     <!-- user details -->
-    <div class="row mb-5 animated fadeIn" style="animation-delay: .25s;">
+    <div class="row mb-5 animated fadeIn" style="animation-delay: .15s;">
         <div class="col-sm-12 col-md-3 col-lg-2 mb-3 pl-0">
             <i class="far fa-address-card fa-6x text-primary"></i><br/>
         </div>
@@ -69,7 +69,7 @@
     </div>
 
     <!-- user profile -->
-    <div class="row mb-5 animated fadeIn" style="animation-delay: .5s;">
+    <div class="row mb-5 animated fadeIn" style="animation-delay: .3s;">
         <div class="col-sm-12 col-md-3 col-lg-2 mb-3 pl-0">
             <i class="fas fa-cogs fa-6x text-primary"></i><br/>
         </div>
@@ -86,8 +86,13 @@
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Start Page: </div>
+                <div class="col-sm-3 font-weight-bold text-primary">Page Refresh: </div>
                 <div class="col-sm-9">{{ user.preference.page_refresh_time }}</div>
+            </div>
+
+            <div class="row border-bottom border-secondary p-2">
+                <div class="col-sm-3 font-weight-bold text-primary">Start Page: </div>
+                <div class="col-sm-9"><a href="{{ user.preference.start_page }}">{{ user.preference.start_page }}</a></div>
             </div>
 
             <div class="row p-2">
@@ -103,7 +108,7 @@
     </div>
 
     <!-- groups -->
-    <div class="row mb-5 animated fadeIn" style="animation-delay: .75s;">
+    <div class="row mb-5 animated fadeIn" style="animation-delay: .45s;">
         <div class="col-sm-12 col-md-3 col-lg-2 mb-3 pl-0">
             <i class="fas fa-users fa-6x text-primary"></i><br/>
         </div>
@@ -124,7 +129,7 @@
 </div>
 
 {% with form_data_user_preferences as form_data %}
-{% include 'handyhelpers/generic/generic_modal_form.htm' %}
+    {% include 'handyhelpers/generic/generic_modal_form.htm' %}
 {% endwith %}
 
 <div class="m-5">&nbsp;</div>

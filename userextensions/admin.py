@@ -28,7 +28,7 @@ class UserFavoriteAdmin(admin.ModelAdmin):
 
 
 class ServiceAccountAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "group", "description", "enabled")
+    list_display = ("id", "user", "group", "description", "enabled", "admin_enabled")
     search_fields = ["user__username", "group__name", "description"]
     list_filter = ["enabled"]
 

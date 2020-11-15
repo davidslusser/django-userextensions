@@ -1,26 +1,18 @@
 """
 
 """
+import re
 from django.conf import settings
 from django.contrib.auth.models import User, Group
 from django.db import models
 from django.core.exceptions import ValidationError
 
 from handyhelpers.managers import HandyHelperModelManager
+from handyhelpers.models import HandyHelperBaseModel
 from rest_framework.authtoken.models import Token
 
 
-class UserExtensionBaseModel(models.Model):
-    """ base model for UserExtension tables """
-    objects = HandyHelperModelManager()
-    created_at = models.DateTimeField(auto_now_add=True, help_text='date/time when this row was first created')
-    updated_at = models.DateTimeField(auto_now=True, help_text='date/time this row was last updated')
-
-    class Meta:
-        abstract = True
-
-
-class Theme(UserExtensionBaseModel):
+class Theme(HandyHelperBaseModel):
     """ This model tracks themes. It can be used to provide user preferred frontend styling options based on
     defined css files. """
     name = models.CharField(max_length=32, unique=True, help_text='name of theme')
@@ -31,7 +23,7 @@ class Theme(UserExtensionBaseModel):
         return self.name
 
 
-class UserPreference(UserExtensionBaseModel):
+class UserPreference(HandyHelperBaseModel):
     """ This table tracks user preferences. Fields include theme, recents_count, page_refresh_time, and start_page. """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='preference')
     theme = models.ForeignKey(Theme, blank=True, null=True, help_text='theme to use for web pages',
@@ -46,7 +38,7 @@ class UserPreference(UserExtensionBaseModel):
         return self.user.username
 
 
-class UserRecent(UserExtensionBaseModel):
+class UserRecent(HandyHelperBaseModel):
     """ This table stored recently visited urls. """
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recent')
     url = models.URLField(help_text='url endpoint')
@@ -58,7 +50,7 @@ class UserRecent(UserExtensionBaseModel):
         return self.url
 
 
-class UserFavorite(UserExtensionBaseModel):
+class UserFavorite(HandyHelperBaseModel):
     """ This table stores user-defined favorites. """
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite')
     name = models.CharField(max_length=32, blank=True, null=True, help_text='name/label/reference for this favorite')
@@ -71,11 +63,12 @@ class UserFavorite(UserExtensionBaseModel):
         return self.url
 
 
-class ServiceAccount(UserExtensionBaseModel):
+class ServiceAccount(HandyHelperBaseModel):
     """ This table stores service accounts and maps to a (service account) user and group """
     user = models.OneToOneField(User, blank=True, null=True, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    enabled = models.BooleanField(default=True, help_text='enable/disable state of user')
+    enabled = models.BooleanField(default=True, help_text='owner enable/disable state of service account')
+    admin_enabled = models.BooleanField(default=True, help_text='admin enable/disable state of service account')
     description = models.CharField(max_length=254, blank=True, null=True, help_text='optional description')
 
     class Meta:
@@ -87,13 +80,28 @@ class ServiceAccount(UserExtensionBaseModel):
     def clean(self):
         """ clean/update/validate data before saving """
         if not self.user:
+            # If the SRV_ACCOUNT_GROUP_FILTER_LIST (list) settings variable is set, search for a matching regex in the
+            # group name. Use the first match found. If no match is found or an exception is encountered, use the
+            # group name as is.
+            try:
+                group_name = None
+                for regex in getattr(settings, 'SRV_ACCOUNT_GROUP_FILTER_LIST', list()):
+                    match = re.match(regex, self.group.name)
+                    if match:
+                        group_name = match.group(1)
+                        break
+                if not group_name:
+                    group_name = self.group.name
+            except Exception as err:
+                group_name = self.group.name
+
             # Create name based on prefix + group + suffix; prefix and/or suffix is required. The prefix & suffix values
-            # are provided by django settings variables. If neither is set, a default suffix ('_srv') will be used.
+            # are provided by django settings variables. If neither is set, a default suffix '_srv' will be used.
             prefix = getattr(settings, 'SRV_ACCOUNT_PREFIX', '')
             suffix = getattr(settings, 'SRV_ACCOUNT_SUFFIX', '')
             if not prefix and not suffix:
                 suffix = '_srv'
-            username = prefix + self.group.name + suffix
+            username = prefix + group_name + suffix
         else:
             username = self.user.username
 

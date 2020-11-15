@@ -49,6 +49,7 @@ class ListFavorites(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
         context['title'] = 'Favorites'
         context['sub_title'] = request.user.username
         context['table'] = 'userextensions/table/table_favorites.htm'
+        context['modals'] = 'userextensions/form/edit_hostname.htm'
         return render(request, self.template, context=context)
 
 

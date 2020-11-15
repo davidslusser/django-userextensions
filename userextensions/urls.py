@@ -35,6 +35,7 @@ urlpatterns = [
     path('delete_srv_account', action.DeleteServiceAccount.as_view(), name='delete_srv_account'),
     path('enable_srv_account', action.EnableServiceAccount.as_view(), name='enable_srv_account'),
     path('disable_srv_account', action.DisableServiceAccount.as_view(), name='disable_srv_account'),
+    path('edit_favorite', action.EditFavorite.as_view(), name='edit_favorite'),
 
     # ajax views
     path('get_users_per_group', ajax.get_users_per_group, name='get_users_per_group'),

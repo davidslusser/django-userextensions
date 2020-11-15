@@ -125,10 +125,10 @@ The User username is created based on the group name and optional service accoun
 These can be set in django settings with the following parameters: ``SRV_ACCOUNT_PREFIX`` and ``SRV_ACCOUNT_SUFFIX``
 If neither of these parameters are set, the default name will be used: ``<group>_srv``
 
-The name used for the service account can be further filtered via regex pattern if the SRV_ACCOUNT_GROUP_FILTER_LIST
-parameter is set in the django settings. This variable is a list of regular expressions, where the matched group 1 of
-the first matched will be used. For example, if you have a group named 'team_web_ops' and want your service account name
-to be web_ops_service, the regex 'team_(\S+)' can be used.
+The name used for the service account can be filtered via regex pattern if the SRV_ACCOUNT_GROUP_FILTER_LIST
+parameter is set in the django settings. This variable is a list of regular expressions. Matched group 1 of the first
+pattern matched will be used for the service account name. For example, if you have a group named 'team_web_ops' and
+want your service account name to be web_ops_service, the regex 'team_(\S+)' can be used.
 
 A view for displaying and editing these preferences , ``ManageServiceAccounts``, is available at
 ``userextensions:manage_service_accounts`` which uses Twitter Bootstrap. This page provides a list all current service

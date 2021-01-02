@@ -104,7 +104,17 @@ class ManageServiceAccounts(LoginRequiredMixin, View):
             select_related('user', 'group', 'user__auth_token').order_by('group__name')
 
         # get list of groups that do not have a service account
-        context['groups'] = request.user.groups.filter(serviceaccount=None).\
-            prefetch_related('user_set').order_by('name')
+        # If the SRV_ACCOUNT_GROUP_FILTER_LIST (list) settings variable is set, only include groups whose name matches a
+        # provided regex pattern, otherwise include all groups. Set the SRV_ACCOUNT_ENFORCE_MATCHING (bool) settings
+        # variable to False to allow all groups, but maintain naming of the service account based on regex patterns.
+        regex_list = getattr(settings, 'SRV_ACCOUNT_GROUP_FILTER_LIST', list())
+        if regex_list and getattr(settings, 'SRV_ACCOUNT_ENFORCE_MATCHING', True):
+            group_queryset = request.user.groups.none()
+            for regex in regex_list:
+                group_queryset = group_queryset | request.user.groups.filter(serviceaccount=None, name__regex=regex)
+        else:
+            group_queryset = request.user.groups.filter(serviceaccount=None)
+
+        context['groups'] = group_queryset.prefetch_related('user_set').order_by('name')
         context['base_template'] = self.base_template
         return render(request, self.template, context=context)

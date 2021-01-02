@@ -57,7 +57,7 @@
                 <div class="col-sm-3 font-weight-bold text-primary">API Token: </div>
                 <div class="col-sm-9">
                     {{ token }} &nbsp;&nbsp;
-                    <a href="#" class="atmo-link-padding atmo-link-text" title="refresh token"
+                    <a href="#" title="refresh token"
                        onClick="confirmAction('{% url "userextensions:refresh_api_token" %}', 'Update Token', 'This will delete your API token and create a new one. Do you wish to continue?', 'Continue', 'POST');"
                     role="button" data-toggle="tooltip" data-placement="left">
                     <i class="fas fa-sync-alt"></i>

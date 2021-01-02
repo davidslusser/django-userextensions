@@ -29,7 +29,8 @@ def get_users_per_group(request):
             obj_id = request.GET['client_response']
             obj = Group.objects.get(id=obj_id)
             template = loader.get_template('userextensions/ajax/get_users_per_group.htm')
-            return HttpResponse(json.dumps({'server_response': template.render({'queryset': obj.user_set.all()})}),
+            return HttpResponse(json.dumps({'server_response': template.render(
+                {'queryset': obj.user_set.all().filter_by('username')})}),
                                 content_type='application/javascript')
         else:
             return HttpResponse('Invalid request inputs', status=400)

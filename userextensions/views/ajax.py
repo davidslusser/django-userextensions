@@ -30,7 +30,7 @@ def get_users_per_group(request):
             obj = Group.objects.get(id=obj_id)
             template = loader.get_template('userextensions/ajax/get_users_per_group.htm')
             return HttpResponse(json.dumps({'server_response': template.render(
-                {'queryset': obj.user_set.all().filter_by('username')})}),
+                {'queryset': obj.user_set.all().order_by('username')})}),
                                 content_type='application/javascript')
         else:
             return HttpResponse('Invalid request inputs', status=400)
@@ -54,6 +54,28 @@ def get_srv_acct_token_history(request):
             queryset = ServiceAccountTokenHistory.objects.filter(srv_acct__id=obj_id).order_by('-timestamp')
             template = loader.get_template('userextensions/ajax/get_token_history_for_srv_acct.htm')
             return HttpResponse(json.dumps({'server_response': template.render({'queryset': queryset})}),
+                                content_type='application/javascript')
+        else:
+            return HttpResponse('Invalid request inputs', status=400)
+    else:
+        return HttpResponse('Invalid request', status=400)
+
+
+@require_GET
+def show_srv_acct_token(request):
+    """
+    Description:
+        show the API token for a service account
+    Args:
+        request: AJAX request object.
+    Returns:
+        HttpResponse: JSON formatted response.
+    """
+    if (request.is_ajax()) and (request.method == 'GET'):
+        if 'client_response' in request.GET:
+            token = request.GET['client_response']
+            template = loader.get_template('userextensions/ajax/show_srv_acct_token.htm')
+            return HttpResponse(json.dumps({'server_response': template.render({'token': token})}),
                                 content_type='application/javascript')
         else:
             return HttpResponse('Invalid request inputs', status=400)

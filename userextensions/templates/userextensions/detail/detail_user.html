@@ -1,6 +1,11 @@
 {% extends base_template|default:"userextensions/userextensions_base.htm" %}
 {% load staticfiles %}
 
+{% block local_head %}
+{% include 'handyhelpers/component/clipboard.htm' %}
+{% endblock local_head %}
+
+
 {% block content %}
 <div class="container-fluid mb-5 animated fadeIn">
     <h1 class="text-primary"><b>User Profile: </b><span class="text-secondary"><small>{{ user.username }}</small></span></h1>
@@ -55,12 +60,12 @@
 
             <div class="row p-2">
                 <div class="col-sm-3 font-weight-bold text-primary">API Token: </div>
-                <div class="col-sm-9">
-                    {{ token }} &nbsp;&nbsp;
-                    <a href="#" title="refresh token"
-                       onClick="confirmAction('{% url "userextensions:refresh_api_token" %}', 'Update Token', 'This will delete your API token and create a new one. Do you wish to continue?', 'Continue', 'POST');"
-                    role="button" data-toggle="tooltip" data-placement="left">
-                    <i class="fas fa-sync-alt"></i>
+                <div class="col-sm-9 text-primary">
+                    <span id="clipboardExample1">{{ token }}</span> &nbsp;
+                    <a href="#" title="copy token" class="cpy ml-1 mr-1" data-clipboard-target="#clipboardExample1"><i class="fas fa-copy"></i></a>
+                    <a href="#" title="refresh token" class="ml-1 mr-1"
+                       onClick="confirmAction('{% url "userextensions:refresh_api_token" %}', 'Update Token', 'This will delete your API token and create a new one. Do you wish to continue?', 'Continue', 'POST');" role="button" data-toggle="tooltip" data-placement="left">
+                        <i class="fas fa-sync-alt"></i>
                     </a>
                 </div>
             </div>

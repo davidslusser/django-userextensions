@@ -30,7 +30,7 @@ class ListRecents(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
         context['base_template'] = self.base_template
         context['queryset'] = self.filter_by_query_params()
         context['title'] = 'Recents'
-        context['sub_title'] = request.user.username
+        context['subtitle'] = request.user.username
         context['table'] = 'userextensions/table/table_recents.htm'
         return render(request, self.template, context=context)
 
@@ -47,7 +47,7 @@ class ListFavorites(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
         context['base_template'] = self.base_template
         context['queryset'] = self.filter_by_query_params()
         context['title'] = 'Favorites'
-        context['sub_title'] = request.user.username
+        context['subtitle'] = request.user.username
         context['table'] = 'userextensions/table/table_favorites.htm'
         context['modals'] = 'userextensions/form/edit_hostname.htm'
         return render(request, self.template, context=context)

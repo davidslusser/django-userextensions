@@ -1,5 +1,5 @@
 Django>=2.2.9,<3.0.0
 django-braces==1.13.0
 django-handyhelpers>=0.0.25,<1.0.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 Sphinx==1.8.5

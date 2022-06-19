@@ -117,4 +117,5 @@ class ManageServiceAccounts(LoginRequiredMixin, View):
 
         context['groups'] = group_queryset.prefetch_related('user_set').order_by('name')
         context['base_template'] = self.base_template
+        context['modals'] = 'userextensions/form/create_custom_service_account.htm'
         return render(request, self.template, context=context)

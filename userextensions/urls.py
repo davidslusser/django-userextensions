@@ -31,6 +31,7 @@ urlpatterns = [
     # action views
     path('refresh_api_token', views.RefreshApiToken.as_view(), name='refresh_api_token'),
     path('refresh_srv_acct_token', views.RefreshSrvAcctApiToken.as_view(), name='refresh_srv_acct_token'),
+    path('create_custom_srv_account', action.CreateCustomServiceAccount.as_view(), name='create_custom_srv_account'),
     path('create_srv_account', action.CreateServiceAccount.as_view(), name='create_srv_account'),
     path('delete_srv_account', action.DeleteServiceAccount.as_view(), name='delete_srv_account'),
     path('enable_srv_account', action.EnableServiceAccount.as_view(), name='enable_srv_account'),

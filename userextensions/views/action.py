@@ -162,6 +162,40 @@ class CreateServiceAccount(LoginRequiredMixin, View):
         return redirect(referrer)
 
 
+class CreateCustomServiceAccount(LoginRequiredMixin, View):
+    """ create a service account with a custom name """
+    def post(self, request):
+        referrer = self.request.META.get('HTTP_REFERER')
+        try:
+            group_id = self.request.GET.dict().get('id', None)
+            username = self.request.GET.dict().get('username', None)
+            description = self.request.GET.dict().get('description', None)
+            group = Group.objects.get(id=group_id)
+
+            # only create service account if user is a member of the linked group
+            if request.user not in group.user_set.all():
+                messages.add_message(request, messages.ERROR, 'You are not authorized to delete this service account',
+                                     extra_tags='alert-danger')
+                return redirect(referrer)
+
+            # first create new user and add user to group
+            user, is_new = User.objects.get_or_create(username=username)
+            if not is_new:
+                messages.add_message(request, messages.ERROR, f'A user with the username {username} already exists',
+                                     extra_tags='alert-danger')
+                return redirect(referrer)
+            group.user_set.add(user)
+
+            # next create service account with newly created user
+            srv_acct = ServiceAccount.objects.create(user=user, group=group, description=description)
+            messages.add_message(request, messages.INFO, f'Service account {srv_acct.user.username} created',
+                                 extra_tags='alert-info')
+        except Exception as err:
+            messages.add_message(request, messages.ERROR, f'Error creating service account: {err}',
+                                 extra_tags='alert-danger')
+        return redirect(referrer)
+
+
 class DeleteServiceAccount(LoginRequiredMixin, View):
     """ delete a service account """
     def post(self, request):

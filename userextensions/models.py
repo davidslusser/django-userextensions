@@ -111,10 +111,10 @@ class ServiceAccount(HandyHelperBaseModel):
         self.group.user_set.add(self.user)
 
         # check if multiple service accounts per group are allowed. This is set in the django settings file with
-        # the ALLOW_MULTIPLE_SRV_ACCOUNTS variable. By default, only one service account per group is allowed. To
-        # enabled multiple service accounts per group, set SRV_ALLOW_MULTIPLE_ACCOUNTS=True
+        # the ALLOW_MULTIPLE_SRV_ACCOUNTS variable. By default, multiple service accounts per group are allowed. To
+        # limit service account creation to one per group, set ALLOW_MULTIPLE_SRV_ACCOUNTS=False
         if not self.pk:
-            allow_multiple = getattr(settings, 'ALLOW_MULTIPLE_SRV_ACCOUNTS', False)
+            allow_multiple = getattr(settings, 'ALLOW_MULTIPLE_SRV_ACCOUNTS', True)
             existing = ServiceAccount.objects.filter(group=self.group)
             if existing and allow_multiple is False:
                 raise ValidationError({'group': 'Multiple service accounts per group is currently not allowed. To '

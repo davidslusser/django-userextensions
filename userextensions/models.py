@@ -33,6 +33,10 @@ class UserPreference(HandyHelperBaseModel):
     page_refresh_time = models.IntegerField(default=5, blank=True, null=True,
                                             help_text='time, in minutes, to auto-refresh a page (where applicable')
     start_page = models.CharField(max_length=255, blank=True, null=True, help_text='url to redirect to after login')
+    help_text_enable = models.BooleanField(default=True, help_text='enable help text and tooltips')
+    timezone = models.CharField(max_length=32, blank=True, null=True, default='UTC',
+                                help_text='timezone to use when displaying time and datetime values')
+    """https://stackoverflow.com/questions/48383549/how-to-show-local-time-in-template"""
 
     def __str__(self):
         return self.user.username

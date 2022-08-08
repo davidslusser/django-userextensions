@@ -11,8 +11,9 @@ class ThemeAdmin(admin.ModelAdmin):
 
 
 class UserPreferenceAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "theme", "recents_count", "page_refresh_time", "start_page", "updated_at")
+    list_display = ("id", "user", "theme", "recents_count", "page_refresh_time", "timezone", "help_text_enable", "start_page", "updated_at")
     search_fields = ["host", "user__username"]
+    list_filter = ['help_text_enable']
 
 
 class UserRecentAdmin(admin.ModelAdmin):

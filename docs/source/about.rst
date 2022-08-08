@@ -4,7 +4,7 @@
 About
 =====
 django-userextensions is a reusable django application that extends the user model to provide profile settings, tracking
-of user favorites and recently viewed urls and other user-based functionality.
+of user favorites and recently viewed urls and other user-based functionality and service account management.
 
 See details on django-extensions features on the :ref:`Features <features>` page
 

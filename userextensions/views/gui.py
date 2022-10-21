@@ -14,15 +14,15 @@ from rest_framework.authtoken.models import Token
 from userextensions.models import (UserRecent, UserFavorite, ServiceAccount)
 
 # import forms
-from userextensions.forms import (UserPreferenceForm, ServiceAccountForm)
+from userextensions.forms import (UserPreferenceForm)
 
 
 class ListRecents(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
     """ Displays a list of urls the user has recently visited, rendered in a paginated, searchable, sortable bootstrap
     table. This view is filterable via query parameters. Includes links to delete individual entries.
     """
-    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base.htm')
-    template = 'handyhelpers/generic/generic_list.html'
+    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base_bs5.htm')
+    template = 'handyhelpers/generic/bs5/generic_list.html'
 
     def get(self, request, *args, **kwargs):
         context = dict()
@@ -38,8 +38,8 @@ class ListRecents(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
 class ListFavorites(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
     """ Displays a list of urls user has set as favorites, rendered in a paginated, searchable, sortable bootstrap
     table. This view is filterable via query parameters. Includes links to delete individual entries. """
-    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base.htm')
-    template = 'handyhelpers/generic/generic_list.html'
+    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base_bs5.htm')
+    template = 'handyhelpers/generic/bs5/generic_list.html'
 
     def get(self, request, *args, **kwargs):
         context = dict()
@@ -49,14 +49,14 @@ class ListFavorites(LoginRequiredMixin, FilterByQueryParamsMixin, ListView):
         context['title'] = 'Favorites'
         context['subtitle'] = request.user.username
         context['table'] = 'userextensions/table/table_favorites.htm'
-        context['modals'] = 'userextensions/form/edit_hostname.htm'
+        context['modals'] = 'userextensions/form/edit_favorite.htm'
         return render(request, self.template, context=context)
 
 
 class DetailUser(LoginRequiredMixin, View):
     """ Displays user details, including group configuration, API token, and configuration for theme, start page, and
     recents count. Includes link to refresh API token and modal form to edit user preferences. """
-    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base.htm')
+    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base_bs5.htm')
     template = 'userextensions/detail/detail_user.html'
 
     def get(self, request):
@@ -72,7 +72,7 @@ class DetailUser(LoginRequiredMixin, View):
 
         context['user'] = request.user
         context['token'] = str(Token.objects.get_or_create(user=request.user)[0])
-        context['groups'] = sorted([i.name for i in request.user.groups.all()])
+        context['groups'] = sorted([i for i in request.user.groups.all()])
         context['base_template'] = self.base_template
         return render(request, self.template, context=context)
 
@@ -94,7 +94,7 @@ class ManageServiceAccounts(LoginRequiredMixin, View):
     """ Displays service accounts this user can access (service accounts that are linked to groups this owner is a
     member of). Provides mechanisms for users to create service accounts for applicable groups, refresh API tokens, and
     enable/disable service accounts """
-    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base.htm')
+    base_template = getattr(settings, 'BASE_TEMPLATE', 'handyhelpers/handyhelpers_base_bs5.htm')
     template = 'userextensions/custom/manage_service_accounts.html'
 
     def get(self, request):

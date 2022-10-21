@@ -29,7 +29,7 @@
 
             document.getElementById("id_modalEditFavorite_OK").onclick = function(){postEditFavorite(url);};
             $("#id_modalEditFavorite_OK").attr('class', 'btn btn-primary text-light');
-            $("#id_modalEditFavorite").modal({show:true});
+            $("#id_modalEditFavorite").modal('show');
         }
 
         function postEditFavorite(url){
@@ -57,7 +57,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="id_modalEditFavoriteHeader"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body" id="id_modalEditFavoriteBody">
 
@@ -78,7 +78,7 @@
 
                 </div>
                 <div class="modal-footer" id="id_modalEditFavoriteFooter">
-                    <button class="btn btn-light" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button class="btn btn-light" data-bs-dismiss="modal" aria-hidden="true">Cancel</button>
                     <a class="btn btn-primary text-light" id="id_modalEditFavorite_OK"></a>
                 </div>
             </div>

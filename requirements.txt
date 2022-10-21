@@ -1,4 +1,4 @@
 Django
 django-braces
-django-handyhelpers
+django-handyhelpers>=0.2
 Sphinx==1.8.5

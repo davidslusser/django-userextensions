@@ -15,9 +15,9 @@
 
     <!-- user details -->
     <div class="row mb-5 animated fadeIn" style="animation-delay: .15s;">
-        <div class="col-sm-12 col-md-3 col-lg-2 mb-3 pl-0">
-            <i class="far fa-address-card fa-6x text-primary"></i><br/>
-            <span class="text-primary font-weight-bold">Identity</span>
+        <div class="col-sm-12 col-md-3 col-lg-2 mb-3 text-sm-left text-md-center">
+            <div class="text-primary mb-2"><i class="fa-regular fa-id-card fa-6x"></i></div>
+            <div class="text-secondary font-weight-bold">Identity</div>
         </div>
 
         <div class="col-sm-12 col-md-9 col-lg-10">
@@ -25,9 +25,9 @@
                 <div class="col-sm-3 font-weight-bold text-primary">Is Active: </div>
                 <div class="col-sm-9">
                     {% if user.is_active %}
-                    <span class="badge badge-pill badge-primary"><i class="fa fa-check fa-fw"></i></span>
+                    <span class="text-primary"><i class="fa fa-check fa-fw"></i></span>
                     {% else %}
-                    <span class="badge badge-pill badge-danger"><i class="fa fa-times fa-fw"></i></span>
+                    <span class="text-danger"><i class="fa fa-times fa-fw"></i></span>
                     {% endif %}
                 </div>
             </div>
@@ -36,9 +36,9 @@
                 <div class="col-sm-3 font-weight-bold text-primary">Is Staff: </div>
                 <div class="col-sm-9">
                     {% if user.is_staff %}
-                    <span class="badge badge-pill badge-primary"><i class="fa fa-check fa-fw"></i></span>
+                    <span class="text-primary"><i class="fa fa-check fa-fw"></i></span>
                     {% else %}
-                    <span class="badge badge-pill badge-danger"><i class="fa fa-times fa-fw"></i></span>
+                    <span class="text-danger"><i class="fa fa-times fa-fw"></i></span>
                     {% endif %}
                 </div>
             </div>
@@ -47,9 +47,9 @@
                 <div class="col-sm-3 font-weight-bold text-primary">Is Superuser: </div>
                 <div class="col-sm-9">
                     {% if user.is_superuser %}
-                    <span class="badge badge-pill badge-primary"><i class="fa fa-check fa-fw"></i></span>
+                    <span class="text-primary"><i class="fa fa-check fa-fw"></i></span>
                     {% else %}
-                    <span class="badge badge-pill badge-danger"><i class="fa fa-times fa-fw"></i></span>
+                    <span class="text-danger"><i class="fa fa-times fa-fw"></i></span>
                     {% endif %}
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     <span id="clipboardExample1">{{ token }}</span> &nbsp;
                     <a href="#" title="copy token" class="cpy ml-1 mr-1" data-clipboard-target="#clipboardExample1"><i class="fas fa-copy"></i></a>
                     <a href="#" title="refresh token" class="ml-1 mr-1"
-                       onClick="confirmAction('{% url "userextensions:refresh_api_token" %}', 'Update Token', 'This will delete your API token and create a new one. Do you wish to continue?', 'Continue', 'POST');" role="button" data-toggle="tooltip" data-placement="left">
+                       onClick="confirmAction('{% url "userextensions:refresh_api_token" %}', 'Update Token', 'This will delete your API token and create a new one. Do you wish to continue?', 'Continue', 'POST');" role="button" data-bs-toggle="tooltip" data-placement="left">
                         <i class="fas fa-sync-alt"></i>
                     </a>
                 </div>
@@ -73,12 +73,13 @@
 
         </div>
     </div>
+    <br/>
 
     <!-- user profile -->
     <div class="row mb-5 animated fadeIn" style="animation-delay: .3s;">
-        <div class="col-sm-12 col-md-3 col-lg-2 mb-3 pl-0">
-            <i class="fas fa-cogs fa-6x text-primary"></i><br/>
-            <span class="text-primary text-center font-weight-bold">Settings</span>
+        <div class="col-sm-12 col-md-3 col-lg-2 mb-3 text-sm-left text-md-center">
+            <div class="text-primary mb-2"><i class="fas fa-cogs fa-6x"></i></div>
+            <div class="text-secondary font-weight-bold">Settings</div>
         </div>
 
         <div class="col-sm-12 col-md-9 col-lg-10">
@@ -93,12 +94,12 @@
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Help Enabled: </div>
+                <div class="col-sm-3 font-weight-bold text-primary">Help Text Enabled: </div>
                 <div class="col-sm-9">
                     {% if user.preference.help_text_enable %}
-                    <span class="badge badge-pill badge-primary"><i class="fa fa-check fa-fw"></i></span>
+                    <span class="text-primary"><i class="fa fa-check fa-fw"></i></span>
                     {% else %}
-                    <span class="badge badge-pill badge-danger"><i class="fa fa-times fa-fw"></i></span>
+                    <span class="text-danger"><i class="fa fa-times fa-fw"></i></span>
                     {% endif %}
                 </div>
             </div>
@@ -115,13 +116,19 @@
 
             <div class="row border-bottom border-secondary p-2">
                 <div class="col-sm-3 font-weight-bold text-primary">Start Page: </div>
-                <div class="col-sm-9"><a href="{{ user.preference.start_page }}">{{ user.preference.start_page }}</a></div>
+                <div class="col-sm-9">
+                    {% if user.preference.start_page %}
+                    <a href="{{ user.preference.start_page }}">{{ user.preference.start_page }}</a>
+                    {% else %}
+                    None
+                    {% endif %}
+                </div>
             </div>
 
             <div class="row p-2">
                 <div class="col-sm-3 font-weight-bold text-primary">Edit: </div>
                 <div class="col-sm-9">
-                    <a href="#" class="no-underline" data-toggle="modal" data-target="#modal_{{ form_data_user_preferences.modal_name }}">
+                    <a href="#" class="no-underline" data-bs-toggle="modal" data-bs-target="#modal_{{ form_data_user_preferences.modal_name }}">
                         <i class="fas fa-edit"></i>
                     </a>
                 </div>
@@ -129,19 +136,25 @@
 
         </div>
     </div>
+    <br/>
 
     <!-- groups -->
     <div class="row mb-5 animated fadeIn" style="animation-delay: .45s;">
-        <div class="col-sm-12 col-md-3 col-lg-2 mb-3 pl-0">
-            <i class="fas fa-users fa-6x text-primary"></i><br/>
-            <span class="text-primary text-center font-weight-bold">Groups</span>
+        <div class="col-sm-12 col-md-3 col-lg-2 mb-3 text-sm-left text-md-center">
+            <div class="text-primary mb-2"><i class="fas fa-users fa-6x"></i></div>
+            <div class="text-secondary font-weight-bold">Groups</div>
         </div>
 
         <div class="col-sm-12 col-md-9 col-lg-10">
             <div class="row">
                 {% if groups %}
                 {% for group in groups %}
-                <div class="col-sm-12 col-md-8 col-lg-4">{{ group }}</div>
+                <div class="col-sm-12 col-md-8 col-lg-4">
+                    <a href="#" title="view users in {{ group }}" role="button" data-toggle="tooltip" data-placement="left"
+                       onClick="showInfo('{% url "userextensions:get_users_per_group" %}', '{{ group.id }}', 'Users: <small><i>{{ group }}</i></small>', 'lg');">
+                        {{ group }}
+                    </a>
+                </div>
                 {% endfor %}
                 {% else %}
                 <div>no group memberships found</div>
@@ -153,10 +166,10 @@
 </div>
 
 {% with form_data_user_preferences as form_data %}
-    {% include 'handyhelpers/generic/generic_modal_form.htm' %}
+    {% include 'handyhelpers/generic/bs5/generic_modal_form.htm' %}
 {% endwith %}
 
 <div class="m-5">&nbsp;</div>
-{% include 'handyhelpers/component/modals.htm' %}
+{% include 'handyhelpers/component/bs5/modals.htm' %}
 
 {% endblock content %}

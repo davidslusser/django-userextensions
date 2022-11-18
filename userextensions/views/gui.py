@@ -72,7 +72,7 @@ class DetailUser(LoginRequiredMixin, View):
 
         context['user'] = request.user
         context['token'] = str(Token.objects.get_or_create(user=request.user)[0])
-        context['groups'] = sorted([i for i in request.user.groups.all()])
+        context['groups'] = request.user.groups.all().order_by('name')
         context['base_template'] = self.base_template
         return render(request, self.template, context=context)
 

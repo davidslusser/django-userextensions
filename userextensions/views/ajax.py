@@ -1,21 +1,16 @@
 """
-Views used specifically for handling AJAX Requests on Amazon objects
+Views used specifically for handling AJAX Requests
 """
-# import system modules
-import json
-
 # import django modules
-from django.http import HttpResponse
 from django.template import loader
-from django.views.decorators.http import require_GET
+from handyhelpers.views.ajax import AjaxGetView
 
 # import models
 from django.contrib.auth.models import Group
 from userextensions.models import ServiceAccountTokenHistory
 
 
-@require_GET
-def get_users_per_group(request):
+class GetUsersPerGroup(AjaxGetView):
     """
     Description:
         Get all users in a group.
@@ -24,22 +19,15 @@ def get_users_per_group(request):
     Returns:
         HttpResponse: JSON formatted response.
     """
-    if (request.is_ajax()) and (request.method == 'GET'):
-        if 'client_response' in request.GET:
-            obj_id = request.GET['client_response']
-            obj = Group.objects.get(id=obj_id)
-            template = loader.get_template('userextensions/ajax/get_users_per_group.htm')
-            return HttpResponse(json.dumps({'server_response': template.render(
-                {'queryset': obj.user_set.all().order_by('username')})}),
-                                content_type='application/javascript')
-        else:
-            return HttpResponse('Invalid request inputs', status=400)
-    else:
-        return HttpResponse('Invalid request', status=400)
+    template = loader.get_template('userextensions/ajax/get_users_per_group.htm')
+    
+    def get(self, request, *args, **kwargs):
+        obj_id = request.GET['client_response']
+        self.data = Group.objects.get(id=obj_id).user_set.all().order_by('username')
+        return super().get(request, *args, **kwargs)
 
 
-@require_GET
-def get_srv_acct_token_history(request):
+class GetSerivceAccountTokenHistory(AjaxGetView):
     """
     Description:
         Get the API token refresh history for a give ServiceAccount.
@@ -48,36 +36,25 @@ def get_srv_acct_token_history(request):
     Returns:
         HttpResponse: JSON formatted response.
     """
-    if (request.is_ajax()) and (request.method == 'GET'):
-        if 'client_response' in request.GET:
-            obj_id = request.GET['client_response']
-            queryset = ServiceAccountTokenHistory.objects.filter(srv_acct__id=obj_id).order_by('-timestamp')
-            template = loader.get_template('userextensions/ajax/get_token_history_for_srv_acct.htm')
-            return HttpResponse(json.dumps({'server_response': template.render({'queryset': queryset})}),
-                                content_type='application/javascript')
-        else:
-            return HttpResponse('Invalid request inputs', status=400)
-    else:
-        return HttpResponse('Invalid request', status=400)
+    template = loader.get_template('userextensions/ajax/get_token_history_for_srv_acct.htm')
+    
+    def get(self, request, *args, **kwargs):
+        obj_id = request.GET['client_response']
+        self.data = ServiceAccountTokenHistory.objects.filter(srv_acct__id=obj_id).order_by('-timestamp')
+        return super().get(request, *args, **kwargs)
 
 
-@require_GET
-def show_srv_acct_token(request):
+class GetSerivceAccountToken(AjaxGetView):
     """
     Description:
-        show the API token for a service account
+        Show the API token for a service account.
     Args:
         request: AJAX request object.
     Returns:
         HttpResponse: JSON formatted response.
     """
-    if (request.is_ajax()) and (request.method == 'GET'):
-        if 'client_response' in request.GET:
-            token = request.GET['client_response']
-            template = loader.get_template('userextensions/ajax/show_srv_acct_token.htm')
-            return HttpResponse(json.dumps({'server_response': template.render({'token': token})}),
-                                content_type='application/javascript')
-        else:
-            return HttpResponse('Invalid request inputs', status=400)
-    else:
-        return HttpResponse('Invalid request', status=400)
+    template = loader.get_template('userextensions/ajax/show_srv_acct_token.htm')
+    
+    def get(self, request, *args, **kwargs):
+        self.data = request.GET['client_response']
+        return super().get(request, *args, **kwargs)

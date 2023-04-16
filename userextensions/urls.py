@@ -39,8 +39,8 @@ urlpatterns = [
     path('edit_favorite', action.EditFavorite.as_view(), name='edit_favorite'),
 
     # ajax views
-    path('get_users_per_group', ajax.get_users_per_group, name='get_users_per_group'),
-    path('get_srv_acct_token_history', ajax.get_srv_acct_token_history, name='get_srv_acct_token_history'),
-    path('show_srv_acct_token', ajax.show_srv_acct_token, name='show_srv_acct_token'),
+    path('get_users_per_group', ajax.GetUsersPerGroup.as_view(), name='get_users_per_group'),
+    path('get_srv_acct_token_history', ajax.GetSerivceAccountTokenHistory.as_view(), name='get_srv_acct_token_history'),
+    path('show_srv_acct_token', ajax.GetSerivceAccountToken.as_view(), name='show_srv_acct_token'),
 
 ]

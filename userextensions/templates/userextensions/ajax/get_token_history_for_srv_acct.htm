@@ -1,11 +1,11 @@
-<br>
+<br/>
 <div class="container-fluid">
-    {% if queryset %}
+    {% if data %}
     <table class="table table-condensed table-bordered table-striped">
         <col width="30%">
         <col width="70%">
         <tbody>
-            {% for row in queryset %}
+            {% for row in data %}
             <tr>
                 <td>{{ row.actor }}</td>
                 <td>{{ row.timestamp }}</td>

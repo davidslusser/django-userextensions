@@ -1,6 +1,3 @@
-"""
-
-"""
 from django.utils import timezone
 from django.conf import settings
 from django.urls import resolve
@@ -35,6 +32,15 @@ class UserRecentsMiddleware(MiddlewareMixin):
     """
     def process_request(self, request):
         """ read user and url (path) from request, if valid and not in a skip list, add to recents """
+
+        # do not track ajax requests
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return
+
+        # do not track htmx requests
+        if request.headers.get("Hx-Request", None):
+            return
+
         # only track specified methods
         track_method_list = getattr(settings, 'TRACK_METHOD_LIST', ['GET'])
         if request.method not in track_method_list:

@@ -19,15 +19,15 @@
             <!-- actions -->
             <td>
                 <!-- edit favorite -->
-                <a href="#" title="edit favorite" role="button" data-toggle="tooltip" data-placement="left"
+                <a href="#" title="edit favorite" role="button" data-toggle="tooltip" data-placement="left" class="hvr-grow align-baseline"
                    onClick="EditFavorite('{% url 'userextensions:edit_favorite' %}?id={{ row.id }}', 'Edit Favorite: {{ row.name }} ', '{{ row.name }}', 'Update');">
-                    <i class="fas fa-edit text-primary ml-1 mr-1"></i>
+                    <i class="fas fa-edit text-primary ms-1 me-1"></i>
                 </a>
 
                 <!-- delete favorite -->
-                <a href="#" title="delete favorite" role="button" data-toggle="tooltip" data-placement="left"
+                <a href="#" title="delete favorite" role="button" data-toggle="tooltip" data-placement="left" class="hvr-grow align-baseline"
                    onClick="confirmAction('{% url "userextensions:delete_favorite" row.pk %}', 'Delete Favorite', 'This favorite will be permanently removed from your list of favorites; do you wish to continue?', 'Continue', 'POST');">
-                   <i class="fas fa-trash ml-1 mr-1"></i>
+                   <i class="fas fa-trash ms-1 me-1"></i>
                 </a>
             </td>
         </tr>

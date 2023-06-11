@@ -8,10 +8,10 @@ To use this, add the following in your navbar where appropriate:
 {% endcomment %}
 {% load userextension_tags %}
 
-<a class="dropdown-item" href="{% url 'userextensions:detail_user' %}"><i class="fa fa-address-card fw" style="margin-right: .9em"></i>Profile</a>
-<a class="dropdown-item" href="{% url 'userextensions:manage_service_accounts' %}"><i class="fas fa-users-cog fw" style="margin-right: .75em"></i>Service Accounts</a>
-<a class="dropdown-item" href="{% url 'userextensions:list_recents' %}"><b class="far fa-clock fw mr-3"></b>Recents</a>
-<a class="dropdown-item" href="{% url 'userextensions:list_favorites' %}"><i class="far fa-heart mr-3"></i>Favorites</a>
+<a class="dropdown-item" href="{% url 'userextensions:detail_user' %}"><i class="fa fa-address-card fw" style="margin-right: .85em"></i>Profile</a>
+<a class="dropdown-item" href="{% url 'userextensions:manage_service_accounts' %}"><i class="fas fa-users-cog fw" style="margin-right: .8em"></i>Service Accounts</a>
+<a class="dropdown-item" href="{% url 'userextensions:list_recents' %}"><b class="far fa-clock fw me-3"></b>Recents</a>
+<a class="dropdown-item" href="{% url 'userextensions:list_favorites' %}"><i class="far fa-heart me-3"></i>Favorites</a>
 <div class="dropdown-divider"></div>
 <div class="dropdown-item">
     {% is_favorite request as favorite_id %}
@@ -19,13 +19,13 @@ To use this, add the following in your navbar where appropriate:
         <form name="addFavoriteForm" method="POST" action="{% url 'userextensions:delete_favorite' favorite_id %}">
             {% csrf_token %}
             <input type="hidden" name="name" value="">
-            <a href="javascript:document.addFavoriteForm.submit()"><i class="fas fa-heart-broken mr-3"></i></b>Remove Favorite</a>
+            <a href="javascript:document.addFavoriteForm.submit()"><i class="fas fa-heart-broken me-3"></i></b>Remove Favorite</a>
         </form>
     {% else %}
         <form name="deleteFavoriteForm" method="POST" action="{% url 'userextensions:add_favorite' %}">
             {% csrf_token %}
             <input type="hidden" name="name" value="">
-            <a href="javascript:document.deleteFavoriteForm.submit()"><b class="fas fa-heart mr-3"></b>Add Favorite</a>
+            <a href="javascript:document.deleteFavoriteForm.submit()"><b class="fas fa-heart me-3"></b>Add Favorite</a>
         </form>
     {% endif %}
 </div>
@@ -33,6 +33,6 @@ To use this, add the following in your navbar where appropriate:
     <form name="startPageForm" method="POST" action="{% url 'userextensions:set_start_page' %}">
         {% csrf_token %}
         <input type="hidden" name="name" value="">
-        <a href="javascript:document.startPageForm.submit()"><b class="fas fa-sign-in-alt mr-3"></b>Set start page</a>
+        <a href="javascript:document.startPageForm.submit()"><b class="fas fa-sign-in-alt me-3"></b>Set start page</a>
     </form>
 </div>

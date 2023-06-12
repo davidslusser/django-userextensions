@@ -83,19 +83,15 @@ class AddFavorite(LoginRequiredMixin, View):
 
 
 class DeleteFavorite(LoginRequiredMixin, DeleteView):
-    """ delete a favorite (by pk) and return to the referring page """
-    def delete(self, request, *args, **kwargs):
-        UserFavorite.objects.filter(**kwargs).delete()
-        messages.add_message(self.request, messages.INFO, 'Favorite successfully deleted', extra_tags='alert-info')
-        return redirect(self.request.META.get('HTTP_REFERER'))
+    """ delete a favorite (by pk) and return list favorites page """
+    model = UserFavorite
+    success_url = "/userextensions/list_favorites"
 
 
 class DeleteRecent(LoginRequiredMixin, DeleteView):
-    """ delete a recent (by pk) and return to the referring page """
-    def delete(self, request, *args, **kwargs):
-        UserRecent.objects.filter(**kwargs).delete()
-        messages.add_message(self.request, messages.INFO, 'Recent successfully deleted', extra_tags='alert-info')
-        return redirect(self.request.META.get('HTTP_REFERER'))
+    """ delete a recent (by pk) and return list recents page """
+    model = UserRecent
+    success_url = "/userextensions/list_recents"
 
 
 class UserLoginRedirect(LoginRequiredMixin, View):

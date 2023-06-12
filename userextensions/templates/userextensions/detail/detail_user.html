@@ -7,22 +7,22 @@
 
 
 {% block content %}
-<div class="container-fluid mb-5 animated fadeIn">
+<div class="container-fluid my-5 animated fadeIn">
     <h1 class="text-primary"><b>User Profile: </b><span class="text-secondary"><small>{{ user.username }}</small></span></h1>
 </div>
 
-<div class="container-fluid pl-5 pr-5">
+<div class="container-fluid ps-5 pe-5">
 
     <!-- user details -->
     <div class="row mb-5 animated fadeIn" style="animation-delay: .15s;">
         <div class="col-sm-12 col-md-3 col-lg-2 mb-3 text-sm-left text-md-center">
             <div class="text-primary mb-2"><i class="fa-regular fa-id-card fa-6x"></i></div>
-            <div class="text-secondary font-weight-bold">Identity</div>
+            <div class="text-secondary fw-bold">Identity</div>
         </div>
 
         <div class="col-sm-12 col-md-9 col-lg-10">
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Is Active: </div>
+                <div class="col-sm-3 fw-bold text-primary">Is Active: </div>
                 <div class="col-sm-9">
                     {% if user.is_active %}
                     <span class="text-primary"><i class="fa fa-check fa-fw"></i></span>
@@ -33,7 +33,7 @@
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Is Staff: </div>
+                <div class="col-sm-3 fw-bold text-primary">Is Staff: </div>
                 <div class="col-sm-9">
                     {% if user.is_staff %}
                     <span class="text-primary"><i class="fa fa-check fa-fw"></i></span>
@@ -44,7 +44,7 @@
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Is Superuser: </div>
+                <div class="col-sm-3 fw-bold text-primary">Is Superuser: </div>
                 <div class="col-sm-9">
                     {% if user.is_superuser %}
                     <span class="text-primary"><i class="fa fa-check fa-fw"></i></span>
@@ -55,16 +55,16 @@
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Date Joined: </div>
+                <div class="col-sm-3 fw-bold text-primary">Date Joined: </div>
                 <div class="col-sm-9">{{ user.date_joined }}</div>
             </div>
 
             <div class="row p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">API Token: </div>
+                <div class="col-sm-3 fw-bold text-primary">API Token: </div>
                 <div class="col-sm-9 text-primary">
                     <span id="clipboardExample1">{{ token }}</span> &nbsp;
-                    <a href="#" title="copy token" class="cpy ml-1 mr-1" data-clipboard-target="#clipboardExample1"><i class="fas fa-copy"></i></a>
-                    <a href="#" title="refresh token" class="ml-1 mr-1"
+                    <a href="#" title="copy token" class="hvr-grow align-baseline cpy ms-1 me-1" data-clipboard-target="#clipboardExample1"><i class="fas fa-copy"></i></a>
+                    <a href="#" title="refresh token" class="hvr-grow align-baseline ms-1 me-1"
                        onClick="confirmAction('{% url "userextensions:refresh_api_token" %}', 'Update Token', 'This will delete your API token and create a new one. Do you wish to continue?', 'Continue', 'POST');" role="button" data-bs-toggle="tooltip" data-placement="left">
                         <i class="fas fa-sync-alt"></i>
                     </a>
@@ -79,22 +79,22 @@
     <div class="row mb-5 animated fadeIn" style="animation-delay: .3s;">
         <div class="col-sm-12 col-md-3 col-lg-2 mb-3 text-sm-left text-md-center">
             <div class="text-primary mb-2"><i class="fas fa-cogs fa-6x"></i></div>
-            <div class="text-secondary font-weight-bold">Settings</div>
+            <div class="text-secondary fw-bold">Settings</div>
         </div>
 
         <div class="col-sm-12 col-md-9 col-lg-10">
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Theme: </div>
+                <div class="col-sm-3 fw-bold text-primary">Theme: </div>
                 <div class="col-sm-9">{{ user.preference.theme }}</div>
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Timezone: </div>
+                <div class="col-sm-3 fw-bold text-primary">Timezone: </div>
                 <div class="col-sm-9">{{ user.preference.timezone }}</div>
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Help Text Enabled: </div>
+                <div class="col-sm-3 fw-bold text-primary">Help Text Enabled: </div>
                 <div class="col-sm-9">
                     {% if user.preference.help_text_enable %}
                     <span class="text-primary"><i class="fa fa-check fa-fw"></i></span>
@@ -105,17 +105,17 @@
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Recents Count: </div>
+                <div class="col-sm-3 fw-bold text-primary">Recents Count: </div>
                 <div class="col-sm-9">{{ user.preference.recents_count }}</div>
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Page Refresh: </div>
+                <div class="col-sm-3 fw-bold text-primary">Page Refresh: </div>
                 <div class="col-sm-9">{{ user.preference.page_refresh_time }}</div>
             </div>
 
             <div class="row border-bottom border-secondary p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Start Page: </div>
+                <div class="col-sm-3 fw-bold text-primary">Start Page: </div>
                 <div class="col-sm-9">
                     {% if user.preference.start_page %}
                     <a href="{{ user.preference.start_page }}">{{ user.preference.start_page }}</a>
@@ -126,9 +126,9 @@
             </div>
 
             <div class="row p-2">
-                <div class="col-sm-3 font-weight-bold text-primary">Edit: </div>
+                <div class="col-sm-3 fw-bold text-primary">Edit: </div>
                 <div class="col-sm-9">
-                    <a href="#" class="no-underline" data-bs-toggle="modal" data-bs-target="#modal_{{ form_data_user_preferences.modal_name }}">
+                    <a href="#" class="hvr-grow align-baseline" data-bs-toggle="modal" data-bs-target="#modal_{{ form_data_user_preferences.modal_name }}">
                         <i class="fas fa-edit"></i>
                     </a>
                 </div>
@@ -142,7 +142,7 @@
     <div class="row mb-5 animated fadeIn" style="animation-delay: .45s;">
         <div class="col-sm-12 col-md-3 col-lg-2 mb-3 text-sm-left text-md-center">
             <div class="text-primary mb-2"><i class="fas fa-users fa-6x"></i></div>
-            <div class="text-secondary font-weight-bold">Groups</div>
+            <div class="text-secondary fw-bold">Groups</div>
         </div>
 
         <div class="col-sm-12 col-md-9 col-lg-10">
@@ -150,7 +150,7 @@
                 {% if groups %}
                 {% for group in groups %}
                 <div class="col-sm-12 col-md-8 col-lg-4">
-                    <a href="#" title="view users in {{ group }}" role="button" data-toggle="tooltip" data-placement="left"
+                    <a href="#" title="view users in {{ group }}" role="button" data-toggle="tooltip" data-placement="left" class="hvr-grow align-baseline"
                        onClick="showInfo('{% url "userextensions:get_users_per_group" %}', '{{ group.id }}', 'Users: <small><i>{{ group }}</i></small>', 'lg');">
                         {{ group }}
                     </a>

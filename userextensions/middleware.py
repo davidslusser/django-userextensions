@@ -84,3 +84,16 @@ class UserRecentsMiddleware(MiddlewareMixin):
                                                           user=request.user,
                                                           updated_at=timezone.now())
                                             )
+
+
+class UserTimezoneMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if request.user.is_authenticated:
+            try:
+                timezone.activate(request.user.preference.timezone)
+            except Exception:
+                pass
+        return self.get_response(request)
